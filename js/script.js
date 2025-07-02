@@ -406,23 +406,23 @@ function initModal() {
                     </div>
                     
                     <div class="checkbox-group">
-                        <div class="checkbox-custom">
+                        <label class="checkbox-container" for="termos">
                             <input type="checkbox" id="termos" name="termos" required>
                             <span class="checkmark"></span>
-                        </div>
-                        <label for="termos">
-                            Aceito os <a href="#" onclick="abrirTermos()">termos de uso</a> e 
-                            <a href="#" onclick="abrirPrivacidade()">política de privacidade</a> *
+                            <span class="checkbox-text">
+                                Aceito os <a href="#" onclick="abrirTermos(); return false;">termos de uso</a> e 
+                                <a href="#" onclick="abrirPrivacidade(); return false;">política de privacidade</a> *
+                            </span>
                         </label>
                     </div>
                     
                     <div class="checkbox-group">
-                        <div class="checkbox-custom">
+                        <label class="checkbox-container" for="newsletter">
                             <input type="checkbox" id="newsletter" name="newsletter">
                             <span class="checkmark"></span>
-                        </div>
-                        <label for="newsletter">
-                            Quero receber dicas exclusivas sobre milhas por e-mail
+                            <span class="checkbox-text">
+                                Quero receber dicas exclusivas sobre milhas por e-mail
+                            </span>
                         </label>
                     </div>
                     
@@ -496,26 +496,68 @@ function processarInscricao(event) {
     }
     
     if (isValid) {
-        // Simular processamento
+        // Processar inscrição
         const submitBtn = form.querySelector('button[type="submit"]');
         submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processando...';
         submitBtn.disabled = true;
         
-        setTimeout(() => {
-            // Aqui seria a integração real com o sistema de pagamento
-            trackEvent('form_submitted', {
-                nome: nome,
-                email: email,
-                telefone: telefone,
-                newsletter: formData.get('newsletter') ? 'sim' : 'não'
+        // Preparar dados para envio
+        const dadosInscricao = {
+            nome: nome,
+            email: email,
+            telefone: telefone,
+            newsletter: formData.get('newsletter') ? true : false,
+            timestamp: new Date().toISOString(),
+            origem: 'workshop-milhas'
+        };
+        
+        // Enviar dados para o webhook
+        enviarParaWebhook(dadosInscricao)
+            .then(() => {
+                trackEvent('form_submitted', dadosInscricao);
+                
+                // Redirecionar para página de sucesso
+                window.location.href = 'sucesso.html';
+            })
+            .catch((error) => {
+                console.error('Erro ao enviar dados:', error);
+                
+                // Mesmo com erro no webhook, redirecionar para sucesso
+                // para não bloquear o usuário
+                trackEvent('webhook_error', { error: error.message });
+                window.location.href = 'sucesso.html';
+            })
+            .finally(() => {
+                submitBtn.innerHTML = '<i class="fas fa-credit-card"></i> Finalizar Inscrição';
+                submitBtn.disabled = false;
             });
-            
-            // Redirecionar para checkout
-            window.location.href = '#checkout'; // Substituir pela URL real
-            
-            mostrarToast('Redirecionando para o pagamento...', 'success');
-            fecharModal();
-        }, 2000);
+    }
+}
+
+// Função para enviar dados para o webhook
+async function enviarParaWebhook(dados) {
+    const webhookUrl = 'https://webhook.luizabandeira.com.br/webhook/4129f3fa-d223-45a9-8cba-2a906e829273';
+    
+    try {
+        const response = await fetch(webhookUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(dados)
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const result = await response.json();
+        console.log('Dados enviados com sucesso:', result);
+        return result;
+        
+    } catch (error) {
+        console.error('Erro ao enviar para webhook:', error);
+        throw error;
     }
 }
 
