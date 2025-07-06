@@ -1,12 +1,40 @@
 // Aguarda o carregamento completo da página
 document.addEventListener('DOMContentLoaded', function() {
     
-    // Inicializa todas as funcionalidades
+    // Inicializa todas as funcionalidades básicas
     initCountdown();
     initFAQ();
     initSmoothScroll();
     initScrollAnimations();
     initVagasCounter();
+    
+    // Inicializa funcionalidades avançadas
+    initScrollProgress();
+    initFAB();
+    initModal();
+    initTelefoneMask();
+    initLazyLoading();
+    initExitIntent();
+    
+    // Inicializa tracking e performance
+    initTracking();
+    initPerformanceOptimizations();
+    initMobileAdjustments();
+    
+    // Fechar modal ao clicar fora
+    document.addEventListener('click', (e) => {
+        const modal = document.getElementById('inscricaoModal');
+        if (e.target === modal) {
+            fecharModal();
+        }
+    });
+    
+    // Fechar modal com ESC
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            fecharModal();
+        }
+    });
     
 });
 
@@ -187,8 +215,8 @@ function trackEvent(eventName, eventData = {}) {
     console.log('Event tracked:', eventName, eventData);
 }
 
-// Eventos de tracking
-document.addEventListener('DOMContentLoaded', function() {
+// Eventos de tracking - Inicialização única
+function initTracking() {
     // Track page view
     trackEvent('page_view', {
         page_title: document.title,
@@ -225,10 +253,10 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     });
-});
+}
 
-// Otimizações de performance
-document.addEventListener('DOMContentLoaded', function() {
+// Otimizações de performance - Inicialização única
+function initPerformanceOptimizations() {
     // Lazy loading para imagens
     if ('IntersectionObserver' in window) {
         const imageObserver = new IntersectionObserver((entries, observer) => {
@@ -262,16 +290,16 @@ document.addEventListener('DOMContentLoaded', function() {
         link.as = resource.endsWith('.css') ? 'style' : 'script';
         document.head.appendChild(link);
     });
-});
+}
 
 // Detecção de dispositivo móvel
 function isMobile() {
     return window.innerWidth <= 768;
 }
 
-// Ajustes específicos para mobile
-if (isMobile()) {
-    document.addEventListener('DOMContentLoaded', function() {
+// Ajustes específicos para mobile - Inicialização única
+function initMobileAdjustments() {
+    if (isMobile()) {
         // Ajusta altura do viewport em dispositivos móveis
         const vh = window.innerHeight * 0.01;
         document.documentElement.style.setProperty('--vh', `${vh}px`);
@@ -281,7 +309,7 @@ if (isMobile()) {
             const vh = window.innerHeight * 0.01;
             document.documentElement.style.setProperty('--vh', `${vh}px`);
         });
-    });
+    }
 }
 
 // Função para compartilhamento social
@@ -683,31 +711,7 @@ function initSmoothScrollEnhanced() {
     });
 }
 
-// Inicializar todas as funcionalidades avançadas
-document.addEventListener('DOMContentLoaded', function() {
-    initScrollProgress();
-    initFAB();
-    initModal();
-    initTelefoneMask();
-    initLazyLoading();
-    initExitIntent();
-    initSmoothScrollEnhanced();
-    
-    // Fechar modal ao clicar fora
-    document.addEventListener('click', (e) => {
-        const modal = document.getElementById('inscricaoModal');
-        if (e.target === modal) {
-            fecharModal();
-        }
-    });
-    
-    // Fechar modal com ESC
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-            fecharModal();
-        }
-    });
-});
+// Inicializar todas as funcionalidades avançadas - Removido DOMContentLoaded duplicado
 
 // Performance monitoring
 function initPerformanceMonitoring() {

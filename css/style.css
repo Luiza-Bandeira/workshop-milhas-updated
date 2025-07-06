@@ -1741,3 +1741,46 @@ html {
     }
 }
 
+
+/* Estilos para botões de pagamento */
+.btn-secondary {
+    background: linear-gradient(135deg, var(--accent-purple), var(--accent-pink));
+    color: var(--white);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-secondary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+    background: linear-gradient(135deg, var(--accent-pink), var(--accent-purple));
+}
+
+.payment-options {
+    display: flex;
+    gap: var(--spacing-lg);
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.payment-btn {
+    flex: 1;
+    min-width: 200px;
+    max-width: 280px;
+    justify-content: center;
+    text-align: center;
+}
+
+/* Responsivo para botões de pagamento */
+@media (max-width: 768px) {
+    .payment-options {
+        flex-direction: column;
+        gap: var(--spacing-md);
+    }
+    
+    .payment-btn {
+        width: 100%;
+        max-width: none;
+    }
+}
+
