@@ -671,10 +671,10 @@ section {
 }
 
 .modulo-numero {
-    background: var(--accent-pink);
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
+    background: transparent;
+    width: auto;
+    height: auto;
+    border-radius: 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1782,5 +1782,57 @@ html {
         width: 100%;
         max-width: none;
     }
+}
+
+
+/* Seção de agitação do problema */
+.problema-agitacao {
+    margin-top: var(--spacing-2xl);
+    padding: var(--spacing-xl);
+    background: linear-gradient(135deg, var(--accent-purple), var(--primary-dark));
+    border-radius: var(--border-radius-lg);
+    text-align: center;
+    color: var(--white);
+}
+
+.problema-agitacao p {
+    font-size: var(--font-size-lg);
+    line-height: 1.6;
+    margin-bottom: var(--spacing-md);
+}
+
+.problema-agitacao p:last-child {
+    margin-bottom: 0;
+}
+
+.problema-agitacao strong {
+    font-weight: 700;
+    color: var(--accent-pink);
+}
+
+/* Seção de história na solução */
+.story-section {
+    margin-top: var(--spacing-xl);
+    padding: var(--spacing-lg);
+    background: var(--gray-light);
+    border-radius: var(--border-radius-md);
+    border-left: 4px solid var(--accent-purple);
+}
+
+.story-section h4 {
+    color: var(--primary-dark);
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+    margin-bottom: var(--spacing-md);
+}
+
+.story-section p {
+    color: var(--gray-dark);
+    line-height: 1.6;
+}
+
+.story-section strong {
+    color: var(--accent-purple);
+    font-weight: 600;
 }
 
